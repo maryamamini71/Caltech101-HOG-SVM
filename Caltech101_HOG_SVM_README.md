@@ -168,9 +168,13 @@ Number of support vectors:
 
     5665
 
-Classification result:
+# PCA and SVM Visualization
 
-![SVM Classification Result](results/svm_result.png)
+The trained SVM classifier was visualized in the PCA-reduced feature space.
+
+The original HOG features with 1764 dimensions were reduced to 3 dimensions using PCA. The generated visualization shows the distribution of training samples and the SVM decision regions.
+
+![PCA-SVM Visualization](results/svm_pca_visualization.png)
 
 # PCA Visualization
 
