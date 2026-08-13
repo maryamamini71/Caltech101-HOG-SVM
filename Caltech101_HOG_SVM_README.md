@@ -2,55 +2,78 @@
 
 ## Project Overview
 
-This project implements a classical computer vision pipeline for object
-classification on the Caltech101 dataset using Histogram of Oriented
-Gradients (HOG) feature extraction and Support Vector Machine (SVM)
-classification.
+This project implements an image classification system for the
+Caltech101 dataset using classical computer vision and machine learning
+methods.
 
-The objective is to evaluate the performance of handcrafted image
-features combined with machine learning methods for multi-class object
-recognition.
+The main goal is to classify objects from 101 categories using:
 
-Pipeline:
+-   Histogram of Oriented Gradients (HOG) for feature extraction
+-   Support Vector Machine (SVM) for classification
+-   GridSearchCV for hyperparameter optimization
+-   PCA for feature space visualization
 
-Caltech101 Dataset\
-→ Image preprocessing\
-→ Grayscale conversion\
-→ Resize to 64×64\
-→ HOG feature extraction\
-→ Feature standardization\
-→ SVM training\
-→ GridSearchCV optimization\
-→ Accuracy evaluation\
-→ PCA visualization
+The complete pipeline:
 
-## Dataset Information
+    Caltech101 Dataset
+            |
+            V
+    Image Preprocessing
+            |
+            V
+    Grayscale Conversion
+            |
+            V
+    Resize to 64x64
+            |
+            V
+    HOG Feature Extraction
+            |
+            V
+    Feature Standardization
+            |
+            V
+    SVM Training
+            |
+            V
+    GridSearchCV Optimization
+            |
+            V
+    Classification Evaluation
+            |
+            V
+    PCA Visualization
 
-Dataset: Caltech101 Object Categories
+# Dataset
 
-The Background_Google class was removed.
+The experiments were performed using the Caltech101 Object Categories
+dataset.
+
+The class `BACKGROUND_Google` was removed.
 
 Final dataset:
 
--   Number of classes: 101
--   Number of images: 8677
--   Image size: 64×64
--   Image representation: Grayscale
+  Parameter                 Value
+  ------------------- -----------
+  Number of classes           101
+  Number of images           8677
+  Image size              64 × 64
+  Image type            Grayscale
 
-## Image Preprocessing
+# Image Preprocessing
 
-Each image was:
+Each image was processed using the following steps:
 
-1.  Converted from RGB to grayscale
-2.  Resized to 64×64 pixels
-3.  Converted into a numerical array
+1.  RGB images were converted into grayscale images.
+2.  All images were resized to 64×64 pixels.
+3.  Images were converted into numerical arrays.
 
 Result:
 
     Images shape:
     (8677, 64, 64)
 
-## HOG Feature Extraction
+# HOG Feature Extraction
 
 Histogram of Oriented Gradients (HOG) was used to extract shape and edge
 information.
@@ -62,7 +85,7 @@ Parameters:
     cells_per_block = (2,2)
     block_norm = L2-Hys
 
-Results:
+Feature extraction results:
 
     HOG features shape:
     (8677, 1764)
@@ -70,19 +93,23 @@ Results:
     HOG images shape:
     (8677, 64, 64)
 
-## Dataset Split
+Example HOG visualization:
+
+![HOG Features](results/hog_visualization.png)
+
+# Train and Test Split
 
 The dataset was divided using an 80/20 stratified split.
 
-Training:
+Training data:
 
     (6941, 1764)
 
-Testing:
+Testing data:
 
     (1736, 1764)
 
-## Feature Standardization
+# Feature Standardization
 
 StandardScaler was applied before SVM training.
 
@@ -94,28 +121,28 @@ Results:
     Std:
     1.0000000000000004
 
-## SVM Classification
+# SVM Classification
 
-SVM was used as the classifier.
+Support Vector Machine was used as the classifier.
 
-GridSearchCV was applied to optimize:
+The following parameters were optimized:
 
     C:
-    0.01, 0.1, 1
+    [0.01, 0.1, 1]
 
     Gamma:
-    scale, 0.01, 0.1
+    ['scale', 0.01, 0.1]
 
     Kernel:
-    linear, rbf
+    ['linear', 'rbf']
 
-Total experiments:
+GridSearchCV evaluated:
 
     18 configurations × 3 folds = 54 fits
 
-## Best SVM Model
+# Best SVM Model
 
-The best model obtained was:
+The best model obtained:
 
     SVC(C=0.01, kernel='linear')
 
@@ -125,28 +152,31 @@ Best parameters:
     Gamma = scale
     Kernel = linear
 
-## Classification Results
+# Experimental Results
+
+## Accuracy Results
 
 Cross-validation accuracy:
 
-    0.6569657577833156
-
-    65.69%
+    65.69 %
 
 Final test accuracy:
 
-    0.6756912442396313
-
-    67.57%
+    67.57 %
 
 Number of support vectors:
 
     5665
 
-## PCA Visualization
+Classification result:
 
-PCA was used to reduce the 1764-dimensional HOG space into three
-dimensions.
+![SVM Classification Result](results/svm_result.png)
+
+# PCA Visualization
+
+The original HOG feature vector contains 1764 dimensions.
+
+PCA was applied to reduce the feature space to three dimensions.
 
 Original dimension:
 
@@ -156,7 +186,7 @@ PCA output:
 
     (6941,3)
 
-Explained variance:
+Explained variance ratio:
 
     [
     0.05189807,
@@ -166,67 +196,89 @@ Explained variance:
 
 Total explained variance:
 
-    0.12266070302932025
+    12.27 %
 
-    12.27%
+3D PCA visualization:
 
-## 3D Decision Region Visualization
+![PCA Visualization](results/pca_3d.png)
 
-A 3D PCA grid was created for visualization.
+# SVM Decision Region Visualization
 
-Grid points:
+A 3D grid was generated in PCA space.
+
+Number of grid points:
 
     3375
 
-Converted back to original HOG space:
+Converted back to HOG space:
 
     (3375,1764)
 
-The trained SVM successfully predicted all grid points and generated the
-decision region visualization.
+The trained SVM successfully predicted the class of all generated
+points.
 
-## Experimental Results Summary
+# Final Results Summary
 
-  Parameter             Result
-  ------------------- --------
-  Images                  8677
-  Classes                  101
-  Image size             64×64
-  Feature method           HOG
-  Feature dimension       1764
-  Training samples        6941
-  Testing samples         1736
-  Best kernel           Linear
-  Best C                  0.01
-  CV Accuracy           65.69%
-  Test Accuracy         67.57%
-  Support vectors         5665
-  PCA dimensions             3
-  PCA variance          12.27%
+  Parameter              Result
+  -------------------- --------
+  Images                   8677
+  Classes                   101
+  Feature extraction        HOG
+  Feature dimension        1764
+  Training samples         6941
+  Testing samples          1736
+  Best kernel            Linear
+  Best C                   0.01
+  CV Accuracy            65.69%
+  Test Accuracy          67.57%
+  Support vectors          5665
+  PCA dimension               3
+  PCA variance           12.27%
 
-## Limitations
+# Limitations
 
--   Background information affects some images.
+-   Background objects affect some classifications.
 -   Color information was removed.
--   Fixed image resolution may remove details.
--   Only limited HOG and SVM parameters were tested.
+-   Fixed image size may remove image details.
+-   Only limited SVM parameters were tested.
 
-## Future Improvements
+# Future Improvements
 
 Possible improvements:
 
--   Background removal before feature extraction
+-   Background removal before HOG extraction
+-   Object segmentation
 -   Data augmentation
--   Combining HOG with LBP or color features
--   Larger SVM hyperparameter search
--   Comparison with CNN and transfer learning methods
+-   Combining HOG with other descriptors
+-   Comparison with CNN based methods
 
-## Conclusion
+# Project Structure
 
-The implemented HOG + SVM approach provides a complete classical machine
-learning solution for Caltech101 classification.
+    Caltech101-HOG-SVM/
 
-The final model achieved 67.57% test accuracy on 101 object categories
-using only handcrafted features and SVM, demonstrating that traditional
-computer vision techniques can still provide meaningful results for
-object recognition tasks.
+    │
+    ├── README.md
+    │
+    ├── Caltech101_SVM.ipynb
+    │
+    └── results/
+        |
+        ├── svm_result.png
+        ├── hog_visualization.png
+        └── pca_3d.png
+
+# Conclusion
+
+This project demonstrates that HOG features combined with SVM can
+provide an effective classical machine learning solution for Caltech101
+object classification.
+
+The final model achieved:
+
+    Test Accuracy = 67.57%
+
+on 101 object categories.
+
+The results show that handcrafted features can still provide meaningful
+performance for image classification tasks while remaining interpretable
+and computationally efficient.
